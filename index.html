@@ -22,6 +22,46 @@
 <link rel="preload" as="image" href="assets/img/hero.jpg" fetchpriority="high">
 <script>document.documentElement.className+=" js";</script>
 <link rel="stylesheet" href="assets/css/style.css">
+<!-- Дополнительные стили для улучшения читаемости дат в афише и работы формы -->
+<style>
+  /* Исправление для дат на постерах — всегда читаемы */
+  .event-poster .event-date {
+    background-color: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(2px);
+    color: #fff !important;
+    padding: 4px 10px !important;
+    border-radius: 6px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .event-poster .event-date .d {
+    font-size: 1.2em;
+    margin-right: 2px;
+  }
+  .event-poster .event-date .m {
+    font-size: 0.9em;
+    text-transform: uppercase;
+  }
+  /* Сообщения формы */
+  .form-status-msg {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    display: none;
+  }
+  .form-status-msg.success {
+    display: block;
+    color: #2e7d32;
+    background: #e8f5e9;
+  }
+  .form-status-msg.error {
+    display: block;
+    color: #d32f2f;
+    background: #ffebee;
+  }
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -400,7 +440,7 @@
         </div>
       </div>
 
-      <!-- ====== ФОРМА С INTEGRATION FORMSPREE ====== -->
+      <!-- ====== ОБНОВЛЁННАЯ ФОРМА С ИСПРАВЛЕННЫМИ СООБЩЕНИЯМИ ====== -->
       <div class="form-card form-card--coral anim" id="zapis">
         <form id="contact-form" data-form novalidate>
           <div class="form-body" id="form-body">
@@ -443,17 +483,18 @@
             
             <button type="submit" class="btn btn--block" data-fs-submit-btn>Отправить</button>
             
-            <!-- Сообщения от Formspree -->
-            <div data-fs-success style="display:none;color:#2e7d32;font-weight:600;margin-top:16px;padding:16px;background:#e8f5e9;border-radius:8px;text-align:center">
+            <!-- Единое место для сообщений от Formspree (исправлено) -->
+            <div data-fs-success class="form-status-msg success" style="display: none;">
               ✅ Спасибо! Ваша заявка отправлена. Администратор свяжется с вами в ближайшее время.
             </div>
-            <div data-fs-error style="display:none;color:#d32f2f;font-weight:600;margin-top:16px;padding:16px;background:#ffebee;border-radius:8px;text-align:center">
+            <div data-fs-error class="form-status-msg error" style="display: none;">
               ❌ Что-то пошло не так. Попробуйте ещё раз или напишите нам напрямую.
             </div>
             
             <p class="form-fail" role="alert"></p>
           </div>
           
+          <!-- Этот блок показывается при успехе (скрыт по умолчанию) -->
           <div class="form-success" id="form-success" style="display:none">
             <div class="fs-ico"><svg viewBox="0 0 24 24" width="30" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12l6 6L20 6"/></svg></div>
             <h4>Готово!</h4>
@@ -625,22 +666,26 @@
 <!-- Основной скрипт -->
 <script src="assets/js/main.js" defer></script>
 
-<!-- Дополнительный скрипт для управления состояниями формы -->
+<!-- Управление состояниями формы и другими элементами -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('contact-form');
-    
-    // При успешной отправке
-    form.addEventListener('fs:success', function() {
-      document.getElementById('form-body').style.display = 'none';
-      document.getElementById('form-success').style.display = 'block';
-    });
-    
-    // При ошибке
-    form.addEventListener('fs:error', function() {
-      document.getElementById('form-body').style.display = 'block';
-      document.getElementById('form-success').style.display = 'none';
-    });
+    const formBody = document.getElementById('form-body');
+    const successBlock = document.getElementById('form-success');
+
+    if (form) {
+      // При успешной отправке: показываем блок "Готово!", скрываем форму
+      form.addEventListener('fs:success', function() {
+        if (formBody) formBody.style.display = 'none';
+        if (successBlock) successBlock.style.display = 'block';
+      });
+
+      // При ошибке: показываем форму, скрываем блок "Готово!"
+      form.addEventListener('fs:error', function() {
+        if (formBody) formBody.style.display = 'block';
+        if (successBlock) successBlock.style.display = 'none';
+      });
+    }
   });
 </script>
 </body>
