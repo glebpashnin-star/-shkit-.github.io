@@ -22,6 +22,27 @@
     <link rel="preload" as="image" href="assets/img/hero.jpg" fetchpriority="high">
     <script>document.documentElement.className+=" js";</script>
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Стиль для выравнивания карточки формы */
+        .form-card--webask {
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Растягиваем на всю высоту родителя */
+            background: transparent !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+        }
+        .form-card--webask iframe {
+            flex-grow: 1; /* Занимает всё свободное место */
+            min-height: 500px;
+            border-radius: 12px;
+        }
+        @media (max-width: 768px) {
+            .form-card--webask iframe {
+                min-height: 550px;
+            }
+        }
+    </style>
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -380,6 +401,7 @@
             <span class="kicker anim">Контакты</span>
             <h2 class="sec-title anim">Как к нам попасть?</h2>
             <div class="contacts-grid">
+                <!-- ЛЕВАЯ КОЛОНКА: Контакты и карта -->
                 <div class="contact-info anim">
                     <div class="contact-rows">
                         <div class="row"><div class="ci"><svg viewBox="0 0 24 24"><path d="M12 22s8-5.5 8-12a8 8 0 10-16 0c0 6.5 8 12 8 12z"/><circle cx="12" cy="10" r="3"/></svg></div>
@@ -400,25 +422,18 @@
                     </div>
                 </div>
 
-                <!-- ====== НОВАЯ ФОРМА ОТ WEBAASK (iframe) ====== -->
-                <div class="form-card form-card--coral anim" id="zapis" style="background: transparent !important; box-shadow: none; padding: 0;">
-                    <!-- Заголовок и описание остаются на сайте, чтобы не дублировать -->
-                    <h3 style="margin-top: 0; margin-bottom: 8px; color: var(--dark);">Остались вопросы?</h3>
-                    <p style="margin-top: 0; margin-bottom: 20px; color: var(--grey);">Или просто хотите поболтать — мы не кусаемся. Администратор свяжется с вами, ответит и пригласит на пробное занятие.</p>
-
-                    <!-- iframe с формой WebAsk -->
+                <!-- ПРАВАЯ КОЛОНКА: Только форма (весь лишний текст удалён) -->
+                <div class="form-card form-card--webask anim" id="zapis">
+                    <!-- Здесь только iframe с формой WebAsk -->
                     <iframe 
                         width="100%" 
-                        height="550px" 
+                        height="100%" 
                         src="https://a60014.webask.io/iugsisogf" 
-                        style="overflow:auto; border: none; display: block; background: transparent; border-radius: 12px;" 
+                        style="overflow:auto; border: none; display: block; background: transparent; min-height: 500px; border-radius: 12px;" 
                         frameborder="0" 
                         allow="fullscreen; autoplay; encrypted-media; clipboard-write; picture-in-picture; payment" 
                         allowfullscreen>
                     </iframe>
-
-                    <!-- Маленькая подпись под формой -->
-                    <p style="font-size: 13px; color: var(--grey); margin-top: 12px; text-align: center;">Нажимая «Отправить», вы соглашаетесь на обработку персональных данных</p>
                 </div>
                 <!-- ====== КОНЕЦ ФОРМЫ ====== -->
                 
